@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "378200727300",
+    "project_id": "kangleitaxi",
+    "storage_bucket": "kangleitaxi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378200727300:android:0036401fffb41b88d93a51",
+        "android_client_info": {
+          "package_name": "com.kangleiinovations.kanglei_taxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378200727300-jtllk9brqqbco5age6sfm8f809rnqdab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJoQwu0-7IDwW3H5RyLuJJjfAyUUNq_hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378200727300-7ie7cqpqllqj9k6it22kcse4j4f5nonk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "378200727300-akamdagkq300vj90ekj1nrp9vekogac8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kangleiinovations.kangleiTaxi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378200727300:android:1ccdd6b1b3d8814dd93a51",
+        "android_client_info": {
+          "package_name": "com.kangleiinovations.kanglei_taxi_operator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378200727300-jtllk9brqqbco5age6sfm8f809rnqdab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJoQwu0-7IDwW3H5RyLuJJjfAyUUNq_hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378200727300-7ie7cqpqllqj9k6it22kcse4j4f5nonk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "378200727300-akamdagkq300vj90ekj1nrp9vekogac8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kangleiinovations.kangleiTaxi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
