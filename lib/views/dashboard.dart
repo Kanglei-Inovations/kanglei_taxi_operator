@@ -19,7 +19,8 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Obx(() => ListView.builder(
+      body:
+      Obx(() => ListView.builder(
             itemCount: controller.orderList.length,
             itemBuilder: (context, index) {
               BookingOrder order = controller.orderList[index];
@@ -273,7 +274,7 @@ class _DashboardState extends State<Dashboard> {
                   TextFormField(
                     controller: _linkTextController,
                     decoration:
-                        customInputDecoration.copyWith(labelText: 'Input Link'),
+                        customInputDecoration.copyWith(labelText: 'Enter UPI ID eg. 9481292@sbi'),
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
@@ -287,9 +288,52 @@ class _DashboardState extends State<Dashboard> {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('bookings')
+                    .doc(order.id)
+                    .update({
+                  'status': "Unpaid",
+
+                }).then((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Payment successfully'),
+                  ));
+                  Navigator.of(context).pop();
+                }).catchError((error) {
+                  print('Error updating payment details: $error');
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Failed to update payment Status'),
+                  ));
+                });
+              },
+
+              child: Text('UnPaid'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+          FirebaseFirestore.instance
+              .collection('bookings')
+              .doc(order.id)
+              .update({
+            'status': "Paid",
+
+          }).then((_) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Payment successfully'),
+            ));
+            Navigator.of(context).pop();
+          }).catchError((error) {
+            print('Error updating payment details: $error');
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Failed to update payment Status'),
+            ));
+          });
+        },
+
               child: Text('Paid'),
             ),
+
             ElevatedButton(
               onPressed: () {
                 FirebaseFirestore.instance
@@ -297,7 +341,7 @@ class _DashboardState extends State<Dashboard> {
                     .doc(order.id)
                     .update({
                   'fees': _amountTextController.text,
-                  'paymentLink': _linkTextController.text,
+                  'paymentLink': "upi://pay?pa=${_linkTextController.text}&am=${_amountTextController.text}&cu=INR",
                 }).then((_) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('Payment details updated successfully'),
