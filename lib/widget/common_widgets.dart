@@ -1,15 +1,16 @@
 
-import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:kanglei_taxi/conts/firebase/size_constants.dart';
-import 'package:kanglei_taxi/conts/resposive_settings.dart';
-import 'package:kanglei_taxi/conts/text_class.dart';
+
+import 'package:kanglei_taxi_operator/conts/resposive_settings.dart';
 
 import 'package:loading_indicator/loading_indicator.dart';
 import 'dart:math' as math;
 
 import 'package:pinch_zoom/pinch_zoom.dart';
+
+
 const List<Color> _kDefaultRainbowColors = const [
   Colors.red,
   Colors.orange,

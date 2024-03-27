@@ -54,6 +54,8 @@ dependencies:
   geolocator: ^11.0.0
   geocoding: ^3.0.0
   flutter_map: ^6.1.0
+  cached_network_image:
+  pinch_zoom: ^2.0.0
 
 dev_dependencies:
   flutter_test:
