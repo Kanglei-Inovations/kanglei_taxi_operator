@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kanglei_taxi_operator/conts/firebase/size_constants.dart';
 
 import 'package:kanglei_taxi_operator/conts/resposive_settings.dart';
 
