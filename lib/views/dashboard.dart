@@ -341,7 +341,8 @@ class _DashboardState extends State<Dashboard> {
                     .doc(order.id)
                     .update({
                   'fees': _amountTextController.text,
-                  'paymentLink': "upi://pay?pa=${_linkTextController.text}&am=${_amountTextController.text}&cu=INR",
+
+                  'paymentLink': "upi://pay?pa=afsadev@apl&tn=AmazonPay Merchant&pn=AFTAB SHAH&am=${_amountTextController.text}",
                 }).then((_) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('Payment details updated successfully'),
