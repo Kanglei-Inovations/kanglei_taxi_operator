@@ -1,28 +1,26 @@
-import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kanglei_taxi_operator/models/booking_order.dart';
+import 'package:get/get.dart';
 import 'package:kanglei_taxi_operator/models/live_map.dart';
 import 'package:latlong2/latlong.dart';
-class OrderListController extends GetxController {
+class OrderliveListController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  RxList<BookingOrder> orderList = <BookingOrder>[].obs;
-
+  RxList<LiveData> liveorder = <LiveData>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchOrderList();
-
+    _fetchBookingslive();
   }
 
-  void fetchOrderList() {
+  void _fetchBookingslive() {
     _firestore.collection('bookings').snapshots().listen((snapshot) {
-      final List<BookingOrder> orders = [];
+      final List<LiveData> orderslistlive = [];
       snapshot.docs.forEach((doc) {
         final userId = doc['userId'];
         _firestore.collection('users').doc(userId).get().then((userDoc) {
-          orders.add(BookingOrder(
+          // Parse pickupLocation and destinationLocation strings into GeoPoint objects
+          print(userDoc.toString());
+          orderslistlive.add(LiveData(
             id: doc.id,
             type: doc['type'],
             fees: doc['fees'],
@@ -36,11 +34,13 @@ class OrderListController extends GetxController {
             displayName: userDoc['displayName'],
             phoneNumber: userDoc['phoneNumber'],
             photoUrl: userDoc['photoUrl'],
+            driveStatus: '',
           ));
-          orderList.assignAll(orders);
+          liveorder.assignAll(orderslistlive);
         });
       });
     });
-
   }
+
+
 }
