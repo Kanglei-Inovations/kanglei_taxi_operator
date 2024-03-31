@@ -65,8 +65,10 @@ class _DashboardState extends State<Dashboard> {
     }
   }
   Future<void> selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom,
-      allowedExtensions: ['apk'],);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      // type: FileType.custom,
+      // allowedExtensions: ['apk']
+    );
     if (result != null) {
       PlatformFile file = result.files.first;
       filePath = file.path;
