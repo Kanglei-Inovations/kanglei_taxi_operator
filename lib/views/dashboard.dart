@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
-import 'package:kanglei_taxi_operator/conts/firebase/color_constants.dart';
-import 'package:kanglei_taxi_operator/models/booking_order.dart';
 import 'package:kanglei_taxi_operator/provider/livemap.dart';
-import 'package:kanglei_taxi_operator/provider/order_list.dart';
+import 'package:kanglei_taxi_operator/views/order_list.dart';
 import 'package:latlong2/latlong.dart';
 
 class Dashboard extends StatefulWidget {
@@ -29,7 +26,9 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           IconButton(
             icon: Icon(Icons.upload),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(OrderList());
+            },
           ),
         ],
       ),
@@ -304,7 +303,7 @@ class _DashboardState extends State<Dashboard> {
               );
             }
           }),
-        
+
         ],
       ),
     );
