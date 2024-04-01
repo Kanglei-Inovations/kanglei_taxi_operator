@@ -16,5 +16,8 @@ class FirestoreConstants {
   static const uploaddir= "uploader";
   static const profiledir= "profile";
   static const bannerdir= "banners";
-
+  static const totalSales = "totalSales";
+  static const todaySales = "todaySales";
+  static const totalTaxis = "totalTaxis";
+  static const totalCustomers = "totalCustomers";
 }
