@@ -1,110 +1,119 @@
-
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  const Dashboard({Key? key});
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  final TextEditingController versionController = TextEditingController();
-  String? filePath;
-  late final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-  Future<void> uploadFile(BuildContext context) async {
-    try {
-      if (filePath == null) {
-        // Show error message if no file is selected
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please select a file.'),
-        ));
-        return;
-      }
-
-      // Upload file to Firebase Storage
-      String fileName = filePath!.split('/').last;
-      final path = 'app/$fileName';
-      Reference reference = firebaseStorage.ref().child(path);
-      File file = File(filePath!);
-      // Get download URL for the uploaded file
-      await reference.putFile(file);
-      // Get download URL for the uploaded file
-      String fileUrl = await reference.getDownloadURL();
-      // Get current date
-      DateTime currentDate = DateTime.now();
-
-      // Get version from text field
-      String version = versionController.text;
-
-      // Add file URL, date, and version to the database
-      await FirebaseFirestore.instance.collection('app_links').add({
-        'file_url': fileUrl,
-        'upload_timestamp': Timestamp.fromDate(currentDate),
-        'version': version,
-      });
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('File uploaded successfully.'),
-      ));
-
-      // Clear the version field
-      versionController.clear();
-    } catch (e) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error uploading file: $e'),
-      ));
-    }
-  }
-  Future<void> selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      // type: FileType.custom,
-      // allowedExtensions: ['apk']
-    );
-    if (result != null) {
-      PlatformFile file = result.files.first;
-      filePath = file.path;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        leading: Image.asset("images/logo3D.png"),
+        title: Text("KANGLEI_TAXI OPERATOR"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton(
-              onPressed: selectFile,
-              child: Text('Select File'),
+      body: Column(
+        children: [
+          Text("Sales Data"),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('bookings').snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+
+                double totalSales = 0.0;
+                double todaySales = 0.0;
+                int totalTaxis = 0;
+                int totalCustomers = 0;
+
+                // Calculate total sales and today's sales
+                snapshot.data!.docs.forEach((DocumentSnapshot document) {
+                  double amount = double.parse(document['fees'] ?? '0.0');
+                  totalSales += amount;
+
+                  DateTime bookingDate = (document['date'] as Timestamp).toDate();
+                  if (isToday(bookingDate)) {
+                    todaySales += amount;
+                  }
+                });
+
+                // Query taxi_fees collection to get total taxis
+                FirebaseFirestore.instance.collection('bookings').get().then((QuerySnapshot snapshot) {
+                  totalTaxis = snapshot.docs.length;
+                  print(totalTaxis);
+                });
+
+                // Query users collection to get total customers
+                FirebaseFirestore.instance.collection('users').get().then((QuerySnapshot snapshot) {
+                  totalCustomers = snapshot.docs.length;
+                });
+
+                return GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  padding: EdgeInsets.all(10),
+                  children: [
+                    _buildStatCard('Total Sales', '₹ ${totalSales}'),
+                    _buildStatCard('Today\'s Sales', '₹ ${todaySales}'),
+                    _buildStatCard('Total Taxis', totalTaxis),
+                    _buildStatCard('Total Customers', totalCustomers),
+                  ],
+                );
+              },
             ),
-            SizedBox(height: 16.0),
-            TextField(
-              controller: versionController,
-              decoration: InputDecoration(
-                labelText: 'Version',
+          ),
+
+        ],
+      ),
+    );
+  }
+
+
+  Widget _buildStatCard(String title, amount) {
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () => uploadFile(context),
-              child: Text('Upload File'),
+            SizedBox(height: 10),
+            Text(
+              '$amount',
+              style: TextStyle(
+                fontSize: 24,
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+
+  bool isToday(DateTime date) {
+    DateTime now = DateTime.now();
+    return date.year == now.year && date.month == now.month && date.day == now.day;
   }
 }

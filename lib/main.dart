@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kanglei_taxi_operator/provider/ChatProvider.dart';
+import 'package:kanglei_taxi_operator/provider/dashboard_data.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'conts/theme.dart';
@@ -29,34 +30,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // ChangeNotifierProvider<AuthProviderlocal>(
-        //     create: (_) => AuthProviderlocal(
-        //         firebaseFirestore: firebaseFirestore,
-        //         prefs: prefs,
-        //         // googleSignIn: GoogleSignIn(),
-        //         firebaseAuth: FirebaseAuth.instance)),
-        // Provider<ProfileProvider>(
-        //     create: (_) => ProfileProvider(
-        //         prefs: prefs,
-        //         firebaseFirestore: firebaseFirestore,
-        //         firebaseStorage: firebaseStorage)),
         Provider<ChatProvider>(
             create: (_) => ChatProvider(
                 prefs: prefs,
                 firebaseStorage: firebaseStorage,
                 firebaseFirestore: firebaseFirestore)),
+        ChangeNotifierProvider(
+          create: (context) => SalesDataProvider(),
+        ),
 
-        // Provider<HomeProvider>(
-        //     create: (_) => HomeProvider(firebaseFirestore: firebaseFirestore)),
-        // Provider<SimProvider>(
-        //   create: (_) => SimProvider(),
-        // ),
-        // Provider<LocationProvider>(
-        //   create: (_) => LocationProvider(),
-        // ),
-        // Provider<BookingProvider>(
-        //   create: (_) => BookingProvider(),
-        // ),
       ],
       child: GetMaterialApp(
         title: 'Flutter Demo',
