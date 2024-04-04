@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kanglei_taxi_operator/conts/firebase/color_constants.dart';
 import 'package:kanglei_taxi_operator/conts/resposive_settings.dart';
+import 'package:kanglei_taxi_operator/navbar.dart';
 import 'package:kanglei_taxi_operator/views/dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +39,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = FirebaseAuth.instance.currentUser != null;
-    return _showWelcomePage ? _buildWelcomePage() : isLoggedIn?Dashboard():Dashboard()
+    return _showWelcomePage ? _buildWelcomePage() : isLoggedIn?Navbar():Navbar()
         ;
   }
 

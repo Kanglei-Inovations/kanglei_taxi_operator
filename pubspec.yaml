@@ -58,6 +58,9 @@ dependencies:
   pinch_zoom: ^2.0.0
   file_picker: ^8.0.0+1
   fl_chart:
+  bottom_navy_bar:
+  flutter_svg:
+
 
 dev_dependencies:
   flutter_test:
